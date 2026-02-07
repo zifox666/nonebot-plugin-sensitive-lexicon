@@ -88,6 +88,7 @@
 | KICK_COUNT | 否  |  5  | 触犯几次规则后踢人 |
 | MUTE_DAY | 否  |  1  | 首次触发禁言天数  |
 |REJECT_ADD_REQUEST|否|False| 踢出后禁止重新加群 |
+|OCR_URL|否|OCR服务地址|
 
 ## 🎉 使用
 ### 指令表

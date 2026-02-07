@@ -160,7 +160,8 @@ class SensitiveWordDetector:
             self._loaded = True
 
             count = self.ac_automaton.keyword_count
-            logger.success(f"关键词加载完成，共加载 {len(txt_files)} 个文件，{count} 个关键词")
+            logger.success(f"关键词加载完成，共加载 {len(txt_files)} 个文件，"
+                           f"{count} 个关键词")
             return count
 
         except Exception as e:

@@ -5,9 +5,13 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8170:8170"
     volumes:
       - ./data:/app/data
     env_file:
-      - .env
+      - .env.test
+
+networks:
+  sensitive-lexicon:
+    driver: bridge
 

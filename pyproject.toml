@@ -3,12 +3,17 @@ name = "nonebot-plugin-sensitive-lexicon"
 version = "0.1.5"
 description = "插件描述"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 authors = [{ name = "zifox666", email = "zifox666@gmail.com" }]
 dependencies = [
-  "cnocr[ort-cpu]>=2.3.2.3",
   "nonebot-plugin-localstore>=0.7.4",
   "nonebot2>=2.4.3,<3.0.0",
+  "nonebot-adapter-onebot>=2.4.6,<3.0.0",
+  "nonebot2[fastapi]>=2.4.2,<3.0.0",
+  "paddlepaddle==3.0.0",
+  "httpx>=0.28.1",
+  "paddleocr>=2.10.0",
+  "setuptools>=81.0.0",
 ]
 
 [project.urls]
@@ -19,13 +24,11 @@ Repository = "https://github.com/zifox666/nonebot-plugin-sensitive-lexicon.git"
 [dependency-groups]
 dev = [
   "bump-my-version>=1.2.6",
-  "nonebot2[fastapi]>=2.4.2,<3.0.0",
   "poethepoet>=0.40.0",
   "ruff>=0.14.13,<1.0.0",
   { include-group = "test" },
 ]
 test = [
-  "nonebot-adapter-onebot>=2.4.6,<3.0.0",
   "nonebot2[fastapi]>=2.4.2,<3.0.0",
   "nonebug>=0.3.7,<1.0.0",
   "poethepoet>=0.36.0",
@@ -64,7 +67,7 @@ exclude_lines = [
 adapters = [
     { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" }
 ]
-plugins = ["nonebot_plugin_sensitive_lexicon"]
+plugin_dirs = ["src"]
 
 [tool.poe.tasks]
 test = "pytest --cov=src --cov-report xml --junitxml=./junit.xml -n auto"
@@ -72,7 +75,7 @@ bump = "bump-my-version bump"
 show-bump = "bump-my-version show-bump"
 
 [tool.pyright]
-pythonVersion = "3.10"
+pythonVersion = "3.12"
 pythonPlatform = "All"
 defineConstant = { PYDANTIC_V2 = true }
 executionEnvironments = [

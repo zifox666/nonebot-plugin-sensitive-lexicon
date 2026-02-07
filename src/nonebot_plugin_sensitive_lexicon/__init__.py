@@ -3,9 +3,9 @@ import time
 
 from nonebot import logger, require, on_command, on_message
 from nonebot.plugin import PluginMetadata
-from nonebot.adapters.onebot.v11 import Bot, Event, MessageSegment, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import Bot, Event, GroupMessageEvent
 
-from .ocr import ocr_text
+from .ocr import ocr
 from .detect import detect_sensitive_words, highlight_sensitive_words
 
 require("nonebot_plugin_localstore")
@@ -181,7 +181,7 @@ async def _(bot: Bot, event: GroupMessageEvent):
             case "text":
                 detecting_str += seg.data.get("text", "")
             case "image":
-                ocr_result = await ocr_text(img=seg.data.get("url", ""))
+                ocr_result = await ocr.text(img=seg.data.get("url", ""))
                 if ocr_result:
                     detecting_str += ocr_result
             case "forward" | "node":
@@ -192,7 +192,6 @@ async def _(bot: Bot, event: GroupMessageEvent):
                     detecting_str += forward_text
             case _:
                 pass
-
     res = await detect_sensitive_words(detecting_str)
     if res:
         logger.debug(await highlight_sensitive_words(detecting_str))
@@ -244,9 +243,11 @@ async def _(bot: Bot, event: GroupMessageEvent):
                 logger.error(f"移出群聊失败: {e}")
             flag = "移出群聊"
 
-
-        await detect.finish(
+        """await detect.finish(
             MessageSegment.at(event.get_user_id()) +
             MessageSegment.text("话题违规" + f"\n处罚方式: {flag}")
-        )
+        )"""
+
+        logger.info(f"用户 {event.get_user_id()} "
+                    f"在群 {event.group_id} 发送了敏感词，已执行处罚: {flag}")
 
