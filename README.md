@@ -27,57 +27,24 @@
 
 </details>
 
-<details>
-<summary>使用包管理器安装</summary>
-在 nonebot2 项目的插件目录下, 打开命令行, 根据你使用的包管理器, 输入相应的安装命令
-
 <details open>
-<summary>uv</summary>
+<summary>Docker 安装</summary>
 
-    uv add nonebot-plugin-sensitive-lexicon
-安装仓库 master 分支
+如果你已经拉取项目到了本地 可以直接使用 `docker compose up -d`
 
-    uv add git+https://github.com/zifox666/nonebot-plugin-sensitive-lexicon@master
-</details>
+或者直接拉取 （注意创建 .env 和 data 目录）
 
-<details>
-<summary>pdm</summary>
-
-    pdm add nonebot-plugin-sensitive-lexicon
-安装仓库 master 分支
-
-    pdm add git+https://github.com/zifox666/nonebot-plugin-sensitive-lexicon@master
-</details>
-<details>
-<summary>poetry</summary>
-
-    poetry add nonebot-plugin-sensitive-lexicon
-安装仓库 master 分支
-
-    poetry add git+https://github.com/zifox666/nonebot-plugin-sensitive-lexicon@master
-</details>
-
-打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
-
-    plugins = ["nonebot_plugin_sensitive_lexicon"]
+```bash
+docker run -d `
+  --name sensitive-lexicon-bot `
+  --restart unless-stopped `
+  -p 8170:8170 `
+  -v ./data:/app/data `
+  --env-file .env `
+  ghcr.io/zifox666/nonebot-plugin-sensitive-lexicon:latest
+```
 
 </details>
-
-<details>
-<summary>使用 nbr 安装(使用 uv 管理依赖可用)</summary>
-
-[nbr](https://github.com/fllesser/nbr) 是一个基于 uv 的 nb-cli，可以方便地管理 nonebot2
-
-    nbr plugin install nonebot-plugin-sensitive-lexicon
-使用 **pypi** 源安装
-
-    nbr plugin install nonebot-plugin-sensitive-lexicon -i "https://pypi.org/simple"
-使用**清华源**安装
-
-    nbr plugin install nonebot-plugin-sensitive-lexicon -i "https://pypi.tuna.tsinghua.edu.cn/simple"
-
-</details>
-
 
 ## ⚙️ 配置
 
