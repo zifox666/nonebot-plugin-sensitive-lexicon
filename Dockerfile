@@ -11,7 +11,7 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir uv
 
 # 复制依赖文件和源码（uv sync 需要）
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
 COPY bot.py ./
 
