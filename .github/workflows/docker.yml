@@ -11,7 +11,7 @@ on:
         - 'Dockerfile'
         - 'src/**'
         - 'pyproject.toml'
-        - 'poetry.lock'
+        - 'uv.lock'
 
 env:
   REGISTRY: ghcr.io
