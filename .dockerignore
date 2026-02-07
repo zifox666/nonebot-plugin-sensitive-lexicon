@@ -36,12 +36,10 @@ htmlcov/
 # Documentation
 docs/
 *.md
-README.md
+!README.md
 LICENSE
 DOCKER.md
 
-# CI/CD
-.github/
 
 # Data
 data/
