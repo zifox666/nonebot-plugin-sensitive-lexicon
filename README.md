@@ -15,7 +15,7 @@
 
 ## 📖 介绍
 
-这里是插件的详细介绍部分
+通过 [违禁词词库](https://github.com/konsheng/Sensitive-lexicon/) 审核群消息, 触犯规则后自动禁言或踢出, 可选禁止重新加群
 
 ## 💿 安装
 
@@ -24,13 +24,6 @@
 在 nonebot2 项目的根目录下打开命令行, 输入以下指令即可安装
 
     nb plugin install nonebot-plugin-sensitive-lexicon --upgrade
-使用 **pypi** 源安装
-
-    nb plugin install nonebot-plugin-sensitive-lexicon --upgrade -i "https://pypi.org/simple"
-使用**清华源**安装
-
-    nb plugin install nonebot-plugin-sensitive-lexicon --upgrade -i "https://pypi.tuna.tsinghua.edu.cn/simple"
-
 
 </details>
 
@@ -90,17 +83,15 @@
 
 在 nonebot2 项目的`.env`文件中添加下表中的必填配置
 
-| 配置项  | 必填  | 默认值 |   说明   |
-| :-----: | :---: | :----: | :------: |
-| 配置项1 |  是   |   无   | 配置说明 |
-| 配置项2 |  否   |   无   | 配置说明 |
+| 配置项  | 必填 | 默认值 |    说明     |
+| :-----: |:--:|:---:|:---------:|
+| KICK_COUNT | 否  |  5  | 触犯几次规则后踢人 |
+| MUTE_DAY | 否  |  1  | 首次触发禁言天数  |
+|REJECT_ADD_REQUEST|否|False| 踢出后禁止重新加群 |
 
 ## 🎉 使用
 ### 指令表
-| 指令  | 权限  | 需要@ | 范围  |   说明   |
-| :---: | :---: | :---: | :---: | :------: |
-| 指令1 | 主人  |  否   | 私聊  | 指令说明 |
-| 指令2 | 群员  |  是   | 群聊  | 指令说明 |
+| 指令  | 权限  | 需要@ | 范围 |   说明   |
+|:---:|:---:| :---: |:--:|:------:|
+| esl | 管理员 |  否   | 群聊 | 开关本群审核 |
 
-### 🎨 效果图
-如果有效果图的话
