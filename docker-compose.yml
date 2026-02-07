@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   bot:
-    build: .
+    image: ghcr.io/zifox666/nonebot-plugin-sensitive-lexicon:latest
     restart: unless-stopped
     ports:
       - "8170:8170"

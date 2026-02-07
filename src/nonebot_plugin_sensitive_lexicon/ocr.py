@@ -5,12 +5,9 @@ from pathlib import Path
 import httpx
 from paddleocr import PaddleOCR
 
-from .config import plugin_config
-
 
 class OCRImg:
     def __init__(self):
-        self.url: str = plugin_config.ocr_url
         self._client: httpx.AsyncClient = httpx.AsyncClient()
         self.ocr = PaddleOCR(
             text_detection_model_name="PP-OCRv5_server_det",
