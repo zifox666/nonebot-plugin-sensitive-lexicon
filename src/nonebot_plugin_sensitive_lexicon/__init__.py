@@ -6,7 +6,7 @@ from nonebot.plugin import PluginMetadata
 from nonebot.adapters.onebot.v11 import Bot, Event, MessageSegment, GroupMessageEvent
 
 from .ocr import ocr_text
-from .detect import detect_sensitive_words
+from .detect import detect_sensitive_words, highlight_sensitive_words
 
 require("nonebot_plugin_localstore")
 
@@ -195,6 +195,7 @@ async def _(bot: Bot, event: GroupMessageEvent):
 
     res = await detect_sensitive_words(detecting_str)
     if res:
+        logger.debug(await highlight_sensitive_words(detecting_str))
         try:
             await bot.call_api("delete_msg", data={
                 "message_id": event.message_id,

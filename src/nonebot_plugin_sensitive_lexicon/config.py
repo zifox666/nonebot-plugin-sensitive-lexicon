@@ -20,3 +20,6 @@ ROOT_PATH = Path(__name__).parent.absolute()
 DATA_PATH = ROOT_PATH / "data"
 
 PLUGIN_PATH = Path(__file__).resolve().parent
+
+VOCABULARY_PATH = PLUGIN_PATH / "Vocabulary"
+

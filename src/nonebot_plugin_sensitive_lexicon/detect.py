@@ -108,24 +108,24 @@ class AhoCorasick:
 class SensitiveWordDetector:
     """敏感词检测器"""
 
-    def __init__(self, keyword_file: Path | None = None):
+    def __init__(self, keyword_dir: Path | None = None):
         """
         初始化检测器
 
         Args:
-            keyword_file: 关键词文件路径，如果为None则使用默认路径
+            keyword_dir: 关键词目录路径，如果为None则使用默认路径
         """
         self.ac_automaton = AhoCorasick()
-        self._keyword_file = keyword_file or self._get_default_keyword_file()
+        self._keyword_dir = keyword_dir or self._get_default_keyword_dir()
         self._loaded = False
 
-    def _get_default_keyword_file(self) -> Path:
-        """获取默认关键词文件路径"""
-        return Path(__file__).parent / "关键词.txt"
+    def _get_default_keyword_dir(self) -> Path:
+        """获取默认关键词目录路径"""
+        return Path(__file__).parent / "Vocabulary"
 
     def load_keywords(self, encoding: str = "utf-8") -> int:
         """
-        从文件加载关键词
+        从目录加载所有关键词文件
 
         Args:
             encoding: 文件编码，默认utf-8
@@ -133,25 +133,34 @@ class SensitiveWordDetector:
         Returns:
             int: 加载的关键词数量
         """
-        if not self._keyword_file.exists():
-            logger.error(f"关键词文件不存在: {self._keyword_file}")
+        if not self._keyword_dir.exists():
+            logger.error(f"关键词目录不存在: {self._keyword_dir}")
             return 0
 
-        logger.info(f"开始加载关键词文件: {self._keyword_file}")
+        logger.info(f"开始从目录加载关键词: {self._keyword_dir}")
+
+        # 查找所有 .txt 文件
+        txt_files = list(self._keyword_dir.glob("*.txt"))
+
+        if not txt_files:
+            logger.warning(f"目录中没有找到 .txt 文件: {self._keyword_dir}")
+            return 0
 
         try:
-            with open(self._keyword_file, encoding=encoding) as f:
-                for line in f:
-                    keyword = line.strip()
-                    if keyword and not keyword.startswith("#"):  # 支持注释
-                        self.ac_automaton.add_keyword(keyword)
+            for txt_file in txt_files:
+                logger.info(f"加载关键词文件: {txt_file.name}")
+                with open(txt_file, encoding=encoding) as f:
+                    for line in f:
+                        keyword = line.strip()
+                        if keyword and not keyword.startswith("#"):  # 支持注释
+                            self.ac_automaton.add_keyword(keyword)
 
             # 构建AC自动机
             self.ac_automaton.build()
             self._loaded = True
 
             count = self.ac_automaton.keyword_count
-            logger.success(f"关键词加载完成，共 {count} 个关键词")
+            logger.success(f"关键词加载完成，共加载 {len(txt_files)} 个文件，{count} 个关键词")
             return count
 
         except Exception as e:
