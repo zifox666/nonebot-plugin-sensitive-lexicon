@@ -7,6 +7,11 @@ on:
   push:
     tags:
       - 'v*'
+    paths:
+        - 'Dockerfile'
+        - 'src/**'
+        - 'pyproject.toml'
+        - 'poetry.lock'
 
 env:
   REGISTRY: ghcr.io
