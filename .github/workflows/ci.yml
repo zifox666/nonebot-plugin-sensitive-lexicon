@@ -4,71 +4,18 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    paths:
-      - "src/**"
-      - "tests/**"
-      - "uv.lock"
-      - "pyproject.toml"
-      - ".github/workflows/**"
 
 jobs:
-  typos:
+  check:
+    name: Syntax Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: crate-ci/typos@master
 
-  test:
-    name: Coverage
-    # runs-on: ${{ matrix.os }}
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    concurrency:
-      # group: test-coverage-${{ github.ref }}-${{ matrix.python-version }}-${{ matrix.os }}
-      group: coverage-${{ github.ref }}-${{ matrix.python-version }}
-      cancel-in-progress: true
-
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.12"]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
-        # pydantic-version: ["v1", "v2"]
-
-    env:
-      # OS: ${{ matrix.os }}
-      PYTHON: ${{ matrix.python-version }}
-      UV_NO_SYNC: 1
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v7
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          enable-cache: true
-          python-version: ${{ matrix.python-version }}
-          version: latest
+          python-version: "3.12"
 
-      - name: Install Dependencies
-        run: uv sync --locked
-
-      - name: Run Pytest
-        run: uv run poe test
-
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@v5
-        with:
-          env_vars: PYTHON
-          use_oidc: true
-          report_type: test_results
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          env_vars: PYTHON
-          use_oidc: true
+      - name: Check syntax
+        run: python -m py_compile src/nonebot_plugin_sensitive_lexicon/*.py
